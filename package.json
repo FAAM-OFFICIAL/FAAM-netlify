@@ -1,0 +1,10 @@
+{
+  "name": "faam-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FAAM landing page + the public Stock Paper feed.",
+  "dependencies": {
+    "@netlify/blobs": "8.2.0"
+  }
+}

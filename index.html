@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The FAAM Stock Paper</title>
+  <meta name="description" content="Market notes, earnings and announcements from the FAAM desk." />
+  <meta property="og:title" content="The FAAM Stock Paper" />
+  <meta property="og:description" content="Market notes, earnings and announcements from the FAAM desk." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://rsms.me" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <style>
+    :root {
+      --bg: #F7F8FA; --panel: #FFFFFF; --line: #E4E7EC; --text: #0B1220; --text-2: #344054;
+      --muted: #667085; --blue: #2E64F0; --red: #B42318; --soft: #F1F3F7;
+      --serif: "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0B1220; --panel: #111826; --line: #233149; --text: #E7ECF3; --text-2: #C2CBD9;
+              --muted: #8A97AD; --blue: #6E9BFF; --red: #FF6B83; --soft: #182238; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text);
+           font-family: "Inter var", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    a { color: inherit; }
+    .top { position: sticky; top: 0; z-index: 2; background: var(--panel); border-bottom: 1px solid var(--line); }
+    .top-in { max-width: 900px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; gap: 14px; }
+    .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; letter-spacing: .14em; text-decoration: none; font-size: 14px; }
+    .top-sp { flex: 1; }
+    .top a.back { font-size: 13px; font-weight: 650; color: var(--muted); text-decoration: none; }
+    .top a.get { font-size: 13px; font-weight: 700; color: #fff; background: var(--blue); padding: 8px 13px; border-radius: 9px; text-decoration: none; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 26px 16px 70px; }
+    .mast { text-align: center; padding-bottom: 16px; margin-bottom: 20px; border-bottom: 3px double var(--text); }
+    .mast-top { display: flex; justify-content: space-between; gap: 12px; margin: 0 0 10px; padding: 6px 0;
+                border-top: 1px solid var(--text); border-bottom: 1px solid var(--text);
+                font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .mast h1 { margin: 8px 0 6px; font-family: var(--serif); font-weight: 800; font-size: clamp(34px, 7vw, 64px); letter-spacing: -.02em; line-height: 1; }
+    .mast p { margin: 0; font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 14px; }
+
+    .live { display: inline-flex; align-items: center; gap: 6px; }
+    .live i { width: 7px; height: 7px; border-radius: 50%; background: #12B76A; animation: pulse 2s infinite; }
+    @keyframes pulse { 50% { opacity: .35; } }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+    .card { padding: 18px 0; border-bottom: 1px solid var(--line); cursor: pointer; text-decoration: none; display: block; }
+    .card:hover h2 { text-decoration: underline; text-underline-offset: 3px; }
+    .card.wide { grid-column: 1 / -1; }
+    .card.wide h2 { font-size: clamp(26px, 4vw, 36px); }
+    .card img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 6px; margin-bottom: 12px; }
+    .card.wide img { aspect-ratio: 21 / 9; }
+    .kicker { margin: 0 0 6px; font-size: 10.5px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: var(--red); }
+    .dev { display: inline-block; margin-right: 8px; padding: 2px 7px; border-radius: 4px; color: #fff; background: var(--red); }
+    .card h2 { margin: 0 0 8px; font-family: var(--serif); font-size: 21px; line-height: 1.2; }
+    .excerpt { margin: 0 0 10px; font-family: var(--serif); font-size: 15px; line-height: 1.55; color: var(--text-2); }
+    .meta { margin: 0; font-size: 11.5px; color: var(--muted); font-weight: 600; }
+    .empty, .err { text-align: center; font-family: var(--serif); font-style: italic; color: var(--muted); padding: 40px 0; }
+
+    article.story { max-width: 720px; margin: 0 auto; }
+    article.story h1 { margin: 0 0 12px; font-family: var(--serif); font-size: clamp(28px, 5vw, 44px); line-height: 1.1; }
+    .byline { margin: 0 0 14px; font-size: 12.5px; color: var(--muted); }
+    .byline b { color: var(--text); }
+    .ticks { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+    .ticks span { font-size: 12px; font-weight: 750; color: var(--blue); border: 1px solid var(--line); padding: 4px 9px; border-radius: 999px; }
+    figure { margin: 0 0 22px; }
+    figure img { display: block; width: 100%; border-radius: 8px; }
+    figcaption { margin-top: 6px; font-size: 12px; color: var(--muted); font-style: italic; }
+    .text p { margin: 0 0 16px; font-family: var(--serif); font-size: 18px; line-height: 1.7; }
+    .text p:first-child::first-letter { float: left; font-size: 3.4em; line-height: .85; font-weight: 800; padding: 4px 8px 0 0; }
+    .join { margin-top: 28px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); font-size: 14px; line-height: 1.55; }
+    .join a { color: var(--blue); font-weight: 700; }
+    .backlink { display: inline-block; margin-bottom: 18px; font-size: 13px; font-weight: 650; color: var(--muted); text-decoration: none; }
+    .disclaimer { margin-top: 36px; text-align: center; font-size: 12px; color: var(--muted); }
+    @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) { .live i { animation: none; } }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-in">
+      <a class="brand" href="/">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#7c5cff"/></linearGradient></defs>
+          <path fill="url(#lg)" d="M3 21V3h2v14l5-7 4 5 7-10v16H3z"/>
+        </svg>FAAM
+      </a>
+      <span class="top-sp"></span>
+      <a class="back" href="/">← FAAM home</a>
+      <a class="get" href="/download">Get FAAM</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="front">
+      <header class="mast">
+        <p class="mast-top"><span id="today"></span><span class="live"><i></i>Live</span></p>
+        <h1>The FAAM Stock Paper</h1>
+        <p>Market notes, earnings and news from the FAAM desk. Not financial advice.</p>
+      </header>
+      <div class="grid" id="grid"></div>
+      <p class="empty" id="empty" hidden>No stories yet. FAAM's first edition is on the way.</p>
+      <p class="err" id="err" hidden>The Stock Paper couldn't load right now. It'll try again in a moment.</p>
+    </section>
+
+    <section id="storyView" hidden>
+      <a class="backlink" href="#">← All stories</a>
+      <article class="story">
+        <p class="kicker" id="sKick"></p>
+        <h1 id="sTitle"></h1>
+        <p class="byline"><b>FAAM</b> · <span id="sDate"></span></p>
+        <div class="ticks" id="sTicks"></div>
+        <figure id="sFig" hidden><img id="sImg" alt="" /><figcaption id="sCap"></figcaption></figure>
+        <div class="text" id="sBody"></div>
+        <p class="join" id="sJoin"></p>
+      </article>
+    </section>
+
+    <p class="disclaimer">The FAAM Stock Paper is information, not financial advice. Do your own research.</p>
+  </main>
+
+  <script>
+    /* Everything here is rendered with textContent — never innerHTML — so story
+       text can't inject markup into the page. */
+    (function () {
+      var posts = [];
+      var $ = function (id) { return document.getElementById(id); };
+
+      $("today").textContent = new Date().toLocaleDateString(undefined,
+        { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+
+      function date(ts) {
+        return new Date((ts || 0) * 1000).toLocaleDateString(undefined,
+          { month: "short", day: "numeric", year: "numeric" });
+      }
+      function img(id) { return "/api/paper/img/" + encodeURIComponent(id); }
+      function el(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text != null) e.textContent = text;
+        return e;
+      }
+      function kicker(p, node) {
+        node.textContent = "";
+        if (p.developing) node.appendChild(el("span", "dev", "Developing"));
+        node.appendChild(document.createTextNode((p.pinned ? "Pinned · " : "") + p.kind));
+      }
+
+      function renderFront() {
+        var grid = $("grid");
+        grid.textContent = "";
+        $("empty").hidden = posts.length > 0;
+        posts.forEach(function (p, i) {
+          var wide = i === 0 || p.pinned;
+          var a = el("a", "card" + (wide ? " wide" : ""));
+          a.href = "#" + p.id;
+          if (p.image && wide) {
+            var im = el("img"); im.src = img(p.image); im.alt = ""; im.loading = "lazy";
+            a.appendChild(im);
+          }
+          var k = el("p", "kicker"); kicker(p, k); a.appendChild(k);
+          a.appendChild(el("h2", null, p.title));
+          var ex = p.body.length > 280 ? p.body.slice(0, 280) + "…" : p.body;
+          a.appendChild(el("p", "excerpt", ex));
+          a.appendChild(el("p", "meta", "FAAM · " + date(p.ts) +
+            (p.comments ? " · " + p.comments + (p.comments === 1 ? " comment" : " comments") : "")));
+          grid.appendChild(a);
+        });
+      }
+
+      function renderStory(p) {
+        kicker(p, $("sKick"));
+        $("sTitle").textContent = p.title;
+        $("sDate").textContent = date(p.ts);
+        var t = $("sTicks"); t.textContent = "";
+        (p.tickers || []).forEach(function (x) { t.appendChild(el("span", null, "$" + x)); });
+        t.hidden = !(p.tickers || []).length;
+        $("sFig").hidden = !p.image;
+        if (p.image) { $("sImg").src = img(p.image); $("sCap").textContent = p.imageCaption; }
+        var b = $("sBody"); b.textContent = "";
+        p.body.split(/\n\s*\n/).forEach(function (para) {
+          if (para.trim()) b.appendChild(el("p", null, para.trim()));
+        });
+        var j = $("sJoin"); j.textContent = "";
+        j.appendChild(document.createTextNode(
+          (p.comments ? p.comments + (p.comments === 1 ? " person is" : " people are") + " discussing this in FAAM. " : "")
+          + "Comments live inside the FAAM app — "));
+        var link = el("a", null, "download FAAM to join in"); link.href = "/download";
+        j.appendChild(link);
+        j.appendChild(document.createTextNode("."));
+        document.title = p.title + " — The FAAM Stock Paper";
+      }
+
+      function route() {
+        var id = location.hash.slice(1);
+        var p = id && posts.filter(function (x) { return x.id === id; })[0];
+        $("front").hidden = !!p;
+        $("storyView").hidden = !p;
+        if (p) { renderStory(p); window.scrollTo(0, 0); }
+        else document.title = "The FAAM Stock Paper";
+      }
+
+      function load() {
+        return fetch("/api/paper", { cache: "no-store" })
+          .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+          .then(function (d) {
+            posts = d.posts || [];
+            $("err").hidden = true;
+            renderFront();
+            route();
+          })
+          .catch(function () { $("err").hidden = posts.length > 0; });
+      }
+
+      window.addEventListener("hashchange", route);
+      load();
+      // New stories appear on their own — no reload needed.
+      setInterval(function () { if (!document.hidden) load(); }, 30000);
+      document.addEventListener("visibilitychange", function () { if (!document.hidden) load(); });
+    })();
+  </script>
+</body>
+</html>

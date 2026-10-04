@@ -1,0 +1,78 @@
+# FAAM on Netlify — the landing page plus the live Stock Paper.
+#   site/              -> the website (same as before, plus /paper/)
+#   netlify/functions/ -> /api/paper, the Stock Paper feed (Netlify Blobs; no database)
+#
+# Needs one environment variable in Netlify: FAAM_PAPER_TOKEN (see README).
+
+[build]
+  publish = "site"
+  functions = "netlify/functions"
+  command = "npm install"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  node_bundler = "esbuild"
+
+# ---- The Stock Paper feed
+[[redirects]]
+  from = "/api/paper"
+  to = "/.netlify/functions/paper"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/paper/*"
+  to = "/.netlify/functions/paper/:splat"
+  status = 200
+  force = true
+
+# ---- Same routes the current site has
+[[redirects]]
+  from = "/download"
+  to = "/FAAM.zip"
+  status = 302
+
+[[redirects]]
+  from = "/download/windows"
+  to = "/FAAM-windows.zip"
+  status = 302
+
+[[redirects]]
+  from = "/download/linux"
+  to = "/FAAM-linux.tar.gz"
+  status = 302
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/"
+  status = 302
+
+[[redirects]]
+  from = "/login"
+  to = "/"
+  status = 302
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+# Pages pick up new stories through /api/paper, so they shouldn't be cached stale.
+[[headers]]
+  for = "/paper/*"
+  [headers.values]
+    Cache-Control = "no-cache"
